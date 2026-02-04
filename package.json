@@ -1,0 +1,10 @@
+{
+  "name": "make-devtool",
+  "private": true,
+  "scripts": {
+    "build": "set -f; web-ext build --artifacts-dir dist/ --ignore-files $(cat .crxignore)"
+  },
+  "devDependencies": {
+    "web-ext": "^9.2.0"
+  }
+}

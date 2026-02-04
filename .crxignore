@@ -1,0 +1,7 @@
+.git/*
+.jj/*
+.crxignore
+package.json
+README.md
+src/css/*.scss
+src/css/*.map
