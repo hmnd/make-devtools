@@ -14,6 +14,8 @@ export const config = {
 // === TOOLS CONFIGURATION HERE
 import focusModule from './inbuilt/focusModule.mjs';
 import searchByConfig from './inbuilt/searchByConfig.mjs';
+import searchByFilter from './inbuilt/searchByFilter.mjs';
+import searchScenario from './inbuilt/searchScenario.mjs';
 import swapVariable from './inbuilt/swapVariable.mjs';
 import swapConnection from './inbuilt/swapConnection.mjs';
 import getAppMetadata from './inbuilt/getAppMetadata.mjs';
@@ -32,6 +34,8 @@ import getBlueprintSize from './inbuilt/getBlueprintSize.mjs';
 const tools = [
     focusModule,
     searchByConfig,
+    searchByFilter,
+    searchScenario,
     getAppMetadata,
     copyMapping,
     copyFilter,

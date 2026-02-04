@@ -342,11 +342,11 @@ export function processResponse(response, result, temp, parameters) {
 		if (typeof response.output === 'object') {
 			const output = {};
 			Object.keys(response.output).forEach(key => {
-				output[key] = IML.execute(IML.parse(response.output[key]), { result: result, parameters: parameters });
+				output[key] = IML.execute(IML.parse(response.output[key]), { result: result, temp: temp, parameters: parameters });
 			});
 			return output;
 		} else {
-			return IML.execute(IML.parse(response.output), { result: result, parameters: parameters });
+			return IML.execute(IML.parse(response.output), { result: result, temp: temp, parameters: parameters });
 		}
 	}
 }
