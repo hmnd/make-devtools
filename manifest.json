@@ -3,7 +3,7 @@
   "manifest_version": 3,
   "name": "Make DevTool+",
   "short_name": "Make DevTool+",
-  "version": "2.7.0",
+  "version": "1.0.0",
   "description": "Unofficial enhancement of the original Make DevTool extension.",
   "author": "support@icewolf.ca",
   "icons": {
