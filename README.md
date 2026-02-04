@@ -23,7 +23,7 @@ All bundled assets are stored in `/src/static/*`.
 Color scheme is controled by Bootstrap.
 If a change of the color scheme is needed, the file `/src/static/css/bootstrap4.min.css` has to be updated.
 
-Logo is stored in `src/static/img/logo-light.svg`.
+Logo is stored in `src/static/img/icon.svg`.
 You can change the displayed logo by replacing this file.
 
 ### Font Awesome
