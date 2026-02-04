@@ -5,3 +5,4 @@ package.json
 README.md
 src/css/*.scss
 src/css/*.map
+icons/icon.svg
