@@ -33,7 +33,7 @@
     "extension_pages": "default-src 'self'; script-src-elem 'self' static.integromat.com data: https://static.integromat.com; connect-src * data: blob: filesystem:;style-src 'self' 'unsafe-inline' static.integromat.com data: https://fonts.googleapis.com https://static.integromat.com https://cdn.make.com; img-src 'self' static.integromat.com data: https://static.integromat.com  cdn.make.com data: https://cdn.make.com; frame-src 'self' data:;font-src 'self' static.integromat.com data: https://fonts.gstatic.com https://static.integromat.com https://cdn.make.com; media-src * data: blob: filesystem:;object-src 'self';"
   },
   "host_permissions": [
-    "http://*/*",
-    "https://*/*"
+    "https://*.make.com/*",
+    "https://*.integromat.com/*"
   ]
 }
