@@ -6,6 +6,7 @@ export default {
 	label: 'Search Scenario',
 	description: 'Searches for a keyword across the entire scenario — both module mappings and connection filter conditions.',
 	theme: '#EEEEEE',
+	focusableResults: true,
 	input: [
 		{
 			name: 'keyword',

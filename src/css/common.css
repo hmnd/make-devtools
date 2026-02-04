@@ -121,6 +121,31 @@ body .selectable {
   font-size: 2rem;
   color: #71AC34;
 }
+#toolWindow .tool-result-list {
+  margin-bottom: 0.5rem;
+}
+#toolWindow .tool-result-item {
+  padding: 0.35rem 0.75rem;
+  border-left: none;
+  border-right: none;
+}
+#toolWindow .tool-result-item:first-child {
+  border-top: none;
+}
+#toolWindow .tool-result-item:last-child {
+  border-bottom: none;
+}
+#toolWindow .tool-result-focus {
+  font-size: 0.69rem;
+  padding: 0.1rem 0.5rem;
+  flex-shrink: 0;
+  border-color: #3175E0;
+  color: #3175E0;
+}
+#toolWindow .tool-result-focus:hover {
+  background-color: #3175E0;
+  color: #FFFFFF;
+}
 
 #cycleListItems li.list-group-item.odd, #livestreamEvents li.list-group-item.odd {
   background-color: #FFFFFF;

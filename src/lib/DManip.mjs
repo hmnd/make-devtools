@@ -491,6 +491,132 @@ export function makeControl(id, label, iconClasses, active = false) {
 }
 
 /**
+ * @description Extracts a numeric module ID from various search result formats
+ * @param {any} item A search result item (number, string, or object)
+ * @return {number|null} The extracted module ID, or null if none found
+ */
+function extractModuleId(item) {
+	if (typeof item === 'number') return item;
+	if (typeof item === 'string') {
+		return /^\d+$/.test(item.trim()) ? parseInt(item, 10) : null;
+	}
+	if (typeof item === 'object' && item !== null) {
+		if (typeof item.moduleId === 'number') return item.moduleId;
+		if (typeof item.id === 'number') return item.id;
+		if (typeof item.module === 'number') return item.module;
+	}
+	return null;
+}
+
+/**
+ * @description Formats a search result item as display text
+ * @param {any} item A search result item
+ * @return {string} Human-readable text
+ */
+function formatResultItem(item) {
+	if (typeof item === 'number') return `Module ${item}`;
+	if (typeof item === 'string') return item;
+	if (typeof item === 'object' && item !== null) {
+		if (item.moduleId !== undefined && item.detail) return `Module ${item.moduleId}: ${item.detail}`;
+		if (item.moduleId !== undefined) return `Module ${item.moduleId}`;
+		if (item.id !== undefined) return `Module ${item.id}`;
+		return JSON.stringify(item);
+	}
+	return String(item);
+}
+
+/**
+ * @description Renders a list of search result items with optional Focus buttons
+ * @param {HTMLElement} container Container to append the list to
+ * @param {array} items Array of result items
+ * @param {function} onFocus Callback receiving a module ID when Focus is clicked
+ */
+function renderResultList(container, items, onFocus) {
+	const list = createElement('div', ['list-group', 'tool-result-list']);
+	for (const item of items) {
+		const moduleId = extractModuleId(item);
+		const text = formatResultItem(item);
+		const listItem = createElement('div', ['list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'tool-result-item']);
+		const textSpan = createElement('span', ['selectable', 'mr-2']);
+		textSpan.textContent = text;
+		listItem.appendChild(textSpan);
+		if (moduleId !== null) {
+			const focusBtn = createElement('button', ['btn', 'btn-sm', 'btn-outline-primary', 'tool-result-focus']);
+			focusBtn.setAttribute('type', 'button');
+			focusBtn.textContent = 'Focus';
+			focusBtn.addEventListener('click', () => onFocus(moduleId));
+			listItem.appendChild(focusBtn);
+		}
+		list.appendChild(listItem);
+	}
+	container.appendChild(list);
+}
+
+/**
+ * @description Generates an interactive tool response card with focusable search results
+ * @param {object} response Response data (array or object with array values)
+ * @param {function} onFocus Callback receiving a module ID when Focus is clicked
+ * @param {function} done Call when done clicked
+ * @param {object} lastActive Last active object storage
+ * @return {HTMLElement} Response card
+ */
+export function makeToolResponseInteractive(response, onFocus, done, lastActive) {
+	const card = createElement('div', ['card', 'fullheight']);
+	const finishBody = createElement('div', ['d-flex', 'flex-column'], `
+		<div class="card">
+			<div class="card-body d-flex justify-content-center pb-0">
+				<span class="tool-finished"><i class="fa-fw far fa-check-circle"></i></span><p class="ml-2 lead my-auto">Run completed</p>
+			</div>
+		</div>
+	`);
+	card.appendChild(finishBody);
+	const cardBody = createElement('div', ['row', 'm-0', 'p-0']);
+	const cardBodyContent = createElement('dl', ['row', 'col-12', 'm-0', 'p-0', 'pt-3']);
+	cardBodyContent.appendChild(createElement('dt', ['col-2', 'font-weight-bold', 'pb-1'], 'Output: '));
+	const resultContainer = createElement('dd', ['col-12', 'mb-0', 'px-3']);
+
+	if (Array.isArray(response)) {
+		if (response.length === 0) {
+			resultContainer.appendChild(createElement('p', ['text-secondary', 'font-italic'], 'No results found.'));
+		} else {
+			renderResultList(resultContainer, response, onFocus);
+		}
+	} else if (typeof response === 'object' && response !== null) {
+		for (const [sectionName, sectionResults] of Object.entries(response)) {
+			const header = createElement('h6', ['font-weight-bold', 'mt-2', 'mb-1']);
+			header.textContent = sectionName;
+			resultContainer.appendChild(header);
+			if (Array.isArray(sectionResults)) {
+				if (sectionResults.length === 0) {
+					resultContainer.appendChild(createElement('p', ['text-secondary', 'font-italic', 'ml-2', 'mb-2'], 'No results.'));
+				} else {
+					renderResultList(resultContainer, sectionResults, onFocus);
+				}
+			} else {
+				renderResultList(resultContainer, [sectionResults], onFocus);
+			}
+		}
+	} else {
+		const fallback = createElement('p', ['selectable']);
+		fallback.textContent = String(response);
+		resultContainer.appendChild(fallback);
+	}
+
+	cardBodyContent.appendChild(resultContainer);
+	const button = createElement('button', ['btn', 'btn-success'], 'Done');
+	button.setAttribute('type', 'button');
+	button.addEventListener('click', async () => {
+		done(lastActive);
+	});
+	cardBody.appendChild(cardBodyContent);
+	const buttonWrapper = createElement('dt', ['col-3', 'pt-2']);
+	buttonWrapper.appendChild(button);
+	cardBodyContent.appendChild(buttonWrapper);
+	card.appendChild(cardBody);
+	return card;
+}
+
+/**
  * @description Generates a tool response card
  * @param {object} response Reponse
  * @param {function} done Call when done clicked

@@ -4,6 +4,7 @@ export default {
 	label: 'Find module(s) by mapping',
 	description: 'Returns IDs of modules with a specified keyword in their mapping.',
 	theme: '#EEEEEE',
+	focusableResults: true,
 	input: [
 		{
 			name: 'keyword',

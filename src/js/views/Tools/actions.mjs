@@ -383,7 +383,18 @@ export function makeToolStep(extercomm, toolBase, lastActive) {
 					if (toolBase.modifier === true) {
 						await extercomm.send('revalidateAndRerender', {});
 					}
-					card.parentElement.insertBefore(DManip.makeToolResponse(response, helpers.unfocusTool, lastActive), card.nextElementSibling);
+					let responseCard;
+					if (toolBase.focusableResults) {
+						responseCard = DManip.makeToolResponseInteractive(
+							response,
+							(moduleId) => extercomm.send('focusModule', { module: moduleId }),
+							helpers.unfocusTool,
+							lastActive
+						);
+					} else {
+						responseCard = DManip.makeToolResponse(response, helpers.unfocusTool, lastActive);
+					}
+					card.parentElement.insertBefore(responseCard, card.nextElementSibling);
 					card.classList.add('d-none');
 					window.mirrorify();
 				}
@@ -403,7 +414,18 @@ export function makeToolStep(extercomm, toolBase, lastActive) {
 			if (toolBase.modifier === true) {
 				await extercomm.send('rerender', {});
 			}
-			card.parentElement.insertBefore(DManip.makeToolResponse(response, helpers.unfocusTool, lastActive), card.nextElementSibling);
+			let responseCard;
+			if (toolBase.focusableResults) {
+				responseCard = DManip.makeToolResponseInteractive(
+					response,
+					(moduleId) => extercomm.send('focusModule', { module: moduleId }),
+					helpers.unfocusTool,
+					lastActive
+				);
+			} else {
+				responseCard = DManip.makeToolResponse(response, helpers.unfocusTool, lastActive);
+			}
+			card.parentElement.insertBefore(responseCard, card.nextElementSibling);
 			card.classList.add('d-none');
 			window.mirrorify();
 		});

@@ -6,6 +6,7 @@ export default {
 	label: 'Find module(s) by filter',
 	description: 'Returns IDs of modules with a specified keyword in their connection filter conditions.',
 	theme: '#EEEEEE',
+	focusableResults: true,
 	input: [
 		{
 			name: 'keyword',
